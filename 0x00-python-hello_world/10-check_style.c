@@ -8,19 +8,19 @@
 
 int check_cycle(listint_t *list)
 {
-	listint_t *doub = list;
-	listint_t *reg = list;
+listint_t *slow = list;
+	listint_t *fast = list;
 
-	if (list == NULL)
+	if (!list)
 		return (0);
 
-	while (doub && doub->next)
+	while (slow && fast && fast->next)
 	{
-		reg = reg->next;
-		doub = doub->next->next;
-
-		if (reg == doub)
+		slow = slow->next;
+		fast = fast->next->next;
+		if (slow == fast)
 			return (1);
 	}
+
 	return (0);
 }
