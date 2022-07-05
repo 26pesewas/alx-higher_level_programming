@@ -1,39 +1,21 @@
 #!/usr/bin/python3
-"""Module 12-student.
-Creates a Student class.
-"""
+"""Defines a Pascal Triangle's function."""
 
 
-class Student:
-    """Class that defines a student.
-    Public attributes:
-        - first_name
-        - last_name
-        - age
-    Public method to_json().
+def pascal_triangle(n):
+    """Represent Pascal Triangle's of size n.
+
+    Returns a list of lists of integers representing the triangle.
     """
+    if n <= 0:
+        return []
 
-    def __init__(self, first_name, last_name, age):
-        """Initializes the Student instance."""
-
-        self.first_name = first_name
-        self.last_name = last_name
-        self.age = age
-
-    def to_json(self, attrs=None):
-        """Retrieves a dictionary representation
-        of a Student instance.
-
-        Args:
-            - attrs: list of attributes
-
-        Returns: the dict representation of the instance.
-        """
-
-        my_dict = dict()
-        if type(attrs) is list and all(type(x) is str for x in attrs):
-            for x in attrs:
-                if x in self.__dict__:
-                    my_dict.update({x: self.__dict__[x]})
-            return my_dict
-        return self.__dict__.copy()
+    triangles = [[1]]
+    while len(triangles) != n:
+        tri = triangles[-1]
+        tmp = [1]
+        for i in range(len(tri) - 1):
+            tmp.append(tri[i] + tri[i + 1])
+        tmp.append(1)
+        triangles.append(tmp)
+    return triangles
