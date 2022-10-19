@@ -1,51 +1,21 @@
 #!/usr/bin/node
-
+// get all star wars chars in the right order
+const args = (process.argv);
 const request = require('request');
-
-/*
-let characters = [];
-let dict = {};
-
-function addToDict (url, name) {
-  dict[url] = name;
-}
-
-request('http://swapi.co/api/films/' + process.argv[2], function (error, response, body) {
-  if (error) {
-    console.error(error);
+const url = 'https://swapi-api.hbtn.io/api/films/' + args[2];
+request(url, function (error, response, body) {
+  if (!error) {
+    const chars = JSON.parse(body).characters;
+    printIt(chars, 0);
   }
-  characters = JSON.parse(body).characters
-  characters.forEach(function (url) {
-    request(url, function (error, response, body) {
-      if (error) {
-        console.error(error);
+});
+function printIt (chars, i) {
+  request(chars[i], function (error, response, body) {
+    if (!error) {
+      console.log(JSON.parse(body).name);
+      if (i + 1 < chars.length) {
+        printIt(chars, i + 1);
       }
-      addToDict(url, JSON.parse(body).name);
-    });
-  });
-  characters.forEach(function (item) {
-    console.log(dict[item]);
-  })
-});
-*/
-
-function helpRequest (arr, i) {
-  if (i === arr.length) {
-    return;
-  }
-  request(arr[i], function (error, response, body) {
-    if (error) {
-      console.error(error);
     }
-    console.log(JSON.parse(body).name);
-    helpRequest(arr, i + 1);
   });
 }
-
-request('http://swapi.co/api/films/' + process.argv[2], function (error, response, body) {
-  if (error) {
-    console.error(error);
-  }
-  const charac = JSON.parse(body).characters;
-  helpRequest(charac, 0);
-});
